@@ -1,23 +1,19 @@
-"""Entry program for the make.fun bounty
-"Sum up 24 November's world news in one image" (news-image-20261124).
+#!/usr/bin/env python3
+"""Copy the bundled entry image to /output/entry.png.
 
-The simplest valid program: it copies the image stored in this repository
-to /output/entry.png. No network access, fully deterministic — every run
-writes exactly the same bytes.
+Deterministic: no network, no randomness, no timestamps.
+Running this program any number of times produces byte-identical output.
 """
 
-import os
 import shutil
-
-HERE = os.path.dirname(os.path.abspath(__file__))
-SOURCE = os.path.join(HERE, "entry.png")
-OUTPUT_DIR = "/output"
-OUTPUT = os.path.join(OUTPUT_DIR, "entry.png")
+from pathlib import Path
 
 
 def main() -> None:
-    os.makedirs(OUTPUT_DIR, exist_ok=True)
-    shutil.copyfile(SOURCE, OUTPUT)
+    source = Path(__file__).resolve().parent / "entry.png"
+    target = Path("/output/entry.png")
+    target.parent.mkdir(parents=True, exist_ok=True)
+    shutil.copyfile(source, target)
 
 
 if __name__ == "__main__":
